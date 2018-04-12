@@ -9,14 +9,14 @@ fi
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36"
 
 # 获取用户ID
-ID=$(curl -sS "https://www.loocha.com.cn:8443/login/" \
+ID=$(curl -sS "https://www.loocha.com.cn:8443/login?1=Android_college_100.100.100/" \
   --user $AUTH \
   --user-agent "$UA" \
   | grep -Eo '\"id\":\"[0-9]{7}\"' | awk -F: '{print $2}' | sed 's/"//g')
 echo "id: " $ID
 
 # 获取随机密码CODE
-CODE=$(curl -sS "https://wifi.loocha.cn/${ID}/wifi/telecom/pwd?type=4" \
+CODE=$(curl -sS "https://wifi.loocha.cn/${ID}/wifi/telecom/pwd?type=4&1=Android_college_100.100.100" \
   --user $AUTH \
   --user-agent "$UA" \
   | grep -Eo '\"password\":\"[0-9]{6}\"' | awk -F: '{print $2}' | sed 's/"//g')
@@ -32,13 +32,13 @@ echo "wan_ip: " $WAN_IP
 echo "bras_ip: " $BRAS_IP
 
 # 获取 QRCODE
-QRCODE=$(curl -sS "https://wifi.loocha.cn/0/wifi/qrcode?brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}" \
+QRCODE=$(curl -sS "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.100.100&brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}" \
   | grep -Eo 'HIWF://[a-z0-9]{32}')
 
 echo "qrcode: " $QRCODE
 
 # 开始登录
-PARAM="qrcode=${QRCODE}&code=${CODE}&type=1"
+PARAM="1=Android_college_100.100.100&qrcode=${QRCODE}&code=${CODE}&type=1&mm=default"
 
 curl -X POST \
      --user $AUTH \
