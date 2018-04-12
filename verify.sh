@@ -32,13 +32,13 @@ echo "wan_ip: " $WAN_IP
 echo "bras_ip: " $BRAS_IP
 
 # 获取 QRCODE
-QRCODE=$(curl -sS "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.100.100&brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}" \
+QRCODE=$(curl -sS "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.100.100&brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}&mm=default" \
   | grep -Eo 'HIWF://[a-z0-9]{32}')
 
 echo "qrcode: " $QRCODE
 
 # 开始登录
-PARAM="1=Android_college_100.100.100&qrcode=${QRCODE}&code=${CODE}&type=1&mm=default"
+PARAM="1=Android_college_100.100.100&qrcode=${QRCODE}&code=${CODE}&type=1"
 
 curl -X POST \
      --user $AUTH \
