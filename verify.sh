@@ -1,9 +1,12 @@
 #! /bin/bash
 
+# 请按照 USER:PASS 的格式填写掌上大学账户和密码 
 AUTH=":"
+
 if [ "x$AUTH" == "x:" ] ; then
-  echo "[!] 请按照AUTH=\"user:pass\"格式填入掌上大学账户和密码！"
-  exit
+  read -p "Account: " ACCOUNT
+  read -p "Password: " PASSWD
+  AUTH="$ACCOUNT:$PASSWD"
 fi
 
 UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.104 Safari/537.36"
