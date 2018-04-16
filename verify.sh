@@ -35,7 +35,7 @@ echo "wan_ip: " $WAN_IP
 echo "bras_ip: " $BRAS_IP
 
 # 获取 QRCODE
-QRCODE=$(curl -sS "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.100.100&brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}&mm=default" \
+QRCODE=$(curl -sS "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.100.100&brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}&mm=$(hostname)" \
   | grep -Eo 'HIWF://[a-z0-9]{32}')
 
 echo "qrcode: " $QRCODE
