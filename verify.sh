@@ -10,6 +10,7 @@ if [ "x$AUTH" == "x:" ] ; then
 fi
 
 ACCOUNT=${AUTH:0:11}
+BIG_TIME=0
 
 echo "Account:" $ACCOUNT
 UA="Mozilla/5.0 (iPhone 84; CPU iPhone OS 10_3_3 like Mac OS X) AppleWebKit/603.3.8 (KHTML, like Gecko) Version/10.0 MQQBrowser/7.8.0 Mobile/14G60 Safari/8536.25 MttCustomUA/2 QBWebViewType/1 WKType/1"
@@ -30,7 +31,12 @@ MODEL="default"
 # echo "MODEL:" $MODEL
 
 # 获取随机密码CODE
-TOKEN="server_did=${SERVER_DID}&time=`date +%s000`&type=1"
+TIME1=`date +%s000`
+if [ "$BIG_TIME" == 1 ] ; then
+  TIME1=2525780731349
+fi
+
+TOKEN="server_did=${SERVER_DID}&time=${TIME1}&type=1"
 SIGN=$(echo -n "mobile=${ACCOUNT}&model=${MODEL}&${TOKEN}" | md5sum | cut -d ' ' -f1 | tr a-z A-Z)
 # echo "TOKEN:" $TOKEN
 # echo "SIGN:" $SIGN
@@ -49,6 +55,12 @@ BRAS_IP=$(echo $LOCATION | awk -F '[:?&]' '{print $5}'| awk -F= '{print $2}')
 echo "WAN_IP:" $WAN_IP
 echo "BRAS_IP:" $BRAS_IP
 
+# 无法获取WAN_IP，退出
+if [ "x$WAN_IP" == "x" ] ; then
+    echo "Unable to get Wan IP...Exit"
+    exit
+fi
+
 # 获取 QRCODE
 QRCODE=$(curl -sSk "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.100.100&brasip=${BRAS_IP}&ulanip=${WAN_IP}&wlanip=${WAN_IP}&mm=default" \
   | grep -Eo 'HIWF://[a-z0-9]{32}')
@@ -56,17 +68,18 @@ QRCODE=$(curl -sSk "https://wifi.loocha.cn/0/wifi/qrcode?1=Android_college_100.1
 echo "QRCODE:" $QRCODE
 
 # 开始登录
-TOKEN2="server_did=${SERVER_DID}&time=`date +%s000`&type=1"
+TIME2=`date +%s000`
+if [ "$BIG_TIME" == 1 ] ; then
+  TIME2=2525780731349
+fi
+
+TOKEN2="server_did=${SERVER_DID}&time=${TIME2}&type=1"
+
 # echo "TOKEN2:" $TOKEN2
 SIGN2=$(echo -n "mobile=${ACCOUNT}&model=${MODEL}&${TOKEN2}" | md5sum | cut -d ' ' -f1 | tr a-z A-Z)
 # echo "SIGN2:" $SIGN2
 PARAM="1=Android_college_100.100.100&qrcode=${QRCODE}&code=${CODE}&mm=${MODEL}&${TOKEN2}&sign=${SIGN2}"
 # echo "PARAM:" $PARAM
-
-# 无法获取WAN_IP，退出
-if [ "x$WAN_IP" == "x" ] ; then
-    exit
-fi
 
 curl -kX POST \
      --user $AUTH \
