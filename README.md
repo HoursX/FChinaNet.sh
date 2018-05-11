@@ -28,3 +28,7 @@
 ### 测试用例
 + 斐讯K2 + Padavan 通过
 + 梅林 通过
++ LEDE 17.01 通过
+
+### FChinaNet API 接口说明
++ [Wiki](https://github.com/Anapopo/FChinaNet.sh/wiki/FChinaNet-%E6%8E%A5%E5%8F%A3%E8%AF%B4%E6%98%8E)
